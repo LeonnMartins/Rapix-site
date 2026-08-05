@@ -21,6 +21,126 @@
 
     <!-- CSS Externo -->
     <link rel="stylesheet" href="css/style.css" />
+
+    <!-- ============================================================ -->
+    <!-- COOKIE BANNER - neiki-cookie-banner                           -->
+    <!-- ============================================================ -->
+    <script src="https://cdn.neiki.eu/neiki-cookie-banner/latest/neiki-cookie-banner.min.js">
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            NeikiCookieBanner.init({
+                // Configurações principais
+                privacyPolicyUrl: '/politica-de-privacidade',
+
+                // Textos (todos em português)
+                content: {
+                    header: '🍪 Nós usamos cookies!',
+                    message: 'Usamos cookies para melhorar sua experiência no site, analisar tráfego e personalizar conteúdo. Ao clicar em "Aceitar todos", você concorda com o uso de TODOS os cookies. Você pode configurar suas preferências em "Configurações".',
+                    allowAll: 'Aceitar todos',
+                    denyAll: 'Recusar todos',
+                    settings: 'Configurações',
+                    close: 'Fechar',
+                    modalTitle: 'Configuração de Cookies',
+                    modalSave: 'Salvar preferências',
+                    modalClose: 'Fechar'
+                },
+
+                // Categorias de cookies
+                categories: [{
+                        id: 'necessary',
+                        name: 'Estritamente Necessários',
+                        description: 'Esses cookies são essenciais para o funcionamento básico do site e não podem ser desativados.',
+                        required: true,
+                        defaultState: true,
+                        cookies: ['PHPSESSID', 'csrf_token']
+                    },
+                    {
+                        id: 'analytics',
+                        name: 'Analytics',
+                        description: 'Utilizamos o Google Analytics para entender como os visitantes interagem com o site, ajudando a melhorar a experiência.',
+                        defaultState: false,
+                        cookies: ['_ga', '_gid', '_gat']
+                    },
+                    {
+                        id: 'marketing',
+                        name: 'Marketing e Anúncios',
+                        description: 'Utilizados para exibir anúncios relevantes e medir a eficácia das campanhas de marketing.',
+                        defaultState: false,
+                        cookies: ['_fbp', 'fr']
+                    }
+                ],
+
+                // Função executada quando os scripts são liberados
+                onScriptsUnlock: function(categories) {
+                    // Se o usuário aceitou cookies de analytics
+                    if (categories.analytics) {
+                        // Google Analytics - substitua UA-XXXXX-X pelo seu ID
+                        // (descomente as linhas abaixo quando tiver seu ID)
+                        /*
+                        var script = document.createElement('script');
+                        script.async = true;
+                        script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-X';
+                        document.head.appendChild(script);
+
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'UA-XXXXX-X');
+                        */
+                        console.log('📊 Cookies de analytics ativados');
+                    }
+
+                    // Se o usuário aceitou cookies de marketing
+                    if (categories.marketing) {
+                        // Facebook Pixel - substitua pelo seu ID
+                        // (descomente as linhas abaixo quando tiver seu ID)
+                        /*
+                        !function(f,b,e,v,n,t,s)
+                        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                        n.queue=[];t=b.createElement(e);t.async=!0;
+                        t.src=v;s=b.getElementsByTagName(e)[0];
+                        s.parentNode.insertBefore(t,s)}(window, document,'script',
+                        'https://connect.facebook.net/en_US/fbevents.js');
+                        fbq('init', 'SEU_PIXEL_ID');
+                        fbq('track', 'PageView');
+                        */
+                        console.log('📢 Cookies de marketing ativados');
+                    }
+                },
+
+                // Estilos visuais
+                styles: {
+                    // Cores principais (usando a identidade da Rapix)
+                    primaryColor: '#ff7a1a',
+                    secondaryColor: '#0d1f6b',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    borderRadius: '12px',
+                    buttonRadius: '50px',
+
+                    // Posicionamento
+                    bannerPosition: 'bottom',
+                    bannerWidth: '100%',
+
+                    // Aparência
+                    darkMode: false,
+                    bannerShadow: '0 -4px 30px rgba(0,0,0,0.15)',
+                    bannerBackground: '#ffffff',
+                    textColor: '#0b1a33'
+                },
+
+                // Tradução do botão de abrir novamente
+                reopenButtonLabel: '🍪 Gerenciar cookies',
+
+                // Delay para exibir o banner (ms)
+                delay: 500,
+            });
+
+            console.log('🍪 Cookie banner inicializado com sucesso!');
+        });
+    </script>
 </head>
 <body>
 
@@ -491,7 +611,7 @@
         </div>
     </section>
 
-    <!-- MODAL DINÂMICO -->
+    <!-- MODAL DINÂMICO - SEM CAMPO COMPLEMENTO -->
     <div class="modal-overlay" id="modalContratacao">
         <div class="modal-container">
             <div class="modal-scroll">
@@ -541,8 +661,6 @@
                                 <option value="10">Dia 10</option>
                                 <option value="15">Dia 15</option>
                                 <option value="20">Dia 20</option>
-                                <option value="25">Dia 25</option>
-                                <option value="30">Dia 30</option>
                             </select>
                             <span class="error-message" id="modalVencimentoError"><i class="fas fa-exclamation-circle"></i> Selecione o dia de vencimento.</span>
                         </div>
@@ -560,31 +678,26 @@
                             <span class="error-message" id="modalEnderecoError"><i class="fas fa-exclamation-circle"></i> Digite seu endereço.</span>
                         </div>
                         <div class="form-group">
-                            <label for="modalComplemento">Complemento <span style="color: var(--text-muted);">(opcional)</span></label>
-                            <input type="text" id="modalComplemento" placeholder="Apto, bloco..." autocomplete="address-line2" />
-                            <span class="error-message" id="modalComplementoError"><i class="fas fa-exclamation-circle"></i></span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
                             <label for="modalBairro">Bairro <span class="required">*</span></label>
                             <input type="text" id="modalBairro" placeholder="Seu bairro" autocomplete="address-level3" />
                             <span class="error-message" id="modalBairroError"><i class="fas fa-exclamation-circle"></i> Digite seu bairro.</span>
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="modalCidade">Cidade <span class="required">*</span></label>
                             <input type="text" id="modalCidade" placeholder="Sua cidade" autocomplete="address-level2" />
                             <span class="error-message" id="modalCidadeError"><i class="fas fa-exclamation-circle"></i> Digite sua cidade.</span>
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="modalCep">CEP <span class="required">*</span></label>
                             <input type="text" id="modalCep" placeholder="00000-000" autocomplete="postal-code" />
                             <span class="error-message" id="modalCepError"><i class="fas fa-exclamation-circle"></i> Digite um CEP válido.</span>
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="modalReferencia">Ponto de Referência <span style="color: var(--text-muted);">(opcional)</span></label>
                             <input type="text" id="modalReferencia" placeholder="Próximo ao..." />
@@ -656,5 +769,12 @@
 
     <!-- JavaScript Externo -->
     <script src="js/script.js"></script>
+
+    <!-- ============================================================ -->
+    <!-- COOKIE BANNER - Script de inicialização (já está no head)    -->
+    <!-- ============================================================ -->
+    <!-- O script do cookie banner já está configurado no <head>     -->
+    <!-- Ele é carregado antes do conteúdo da página                 -->
+    <!-- ============================================================ -->
 </body>
 </html>

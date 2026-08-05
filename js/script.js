@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // ============================================================
-    // 1. PRELOADER - Fundo cinza suave (F5F7FA) + fade
+    // 1. PRELOADER
     // ============================================================
     const preloader = document.getElementById('preloader');
     const preloaderVideo = document.getElementById('preloaderVideo');
@@ -686,7 +686,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ============================================================
-    // 12. MODAL DE CONTRATAÇÃO — VALIDAÇÃO INTELIGENTE
+    // 12. MODAL DE CONTRATAÇÃO
     // ============================================================
 
     const modalOverlay = document.getElementById('modalContratacao');
@@ -705,7 +705,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const mVencimento = document.getElementById('modalVencimento');
     const mCpf = document.getElementById('modalCpf');
     const mEndereco = document.getElementById('modalEndereco');
-    const mComplemento = document.getElementById('modalComplemento');
     const mBairro = document.getElementById('modalBairro');
     const mCidade = document.getElementById('modalCidade');
     const mCep = document.getElementById('modalCep');
@@ -862,8 +861,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return isSelected;
         }
-        // Campos opcionais: complemento e referência
-        if (campo === mComplemento || campo === mReferencia) {
+        if (campo === mReferencia) {
             if (valor.trim() === '') {
                 campo.classList.remove('error', 'success');
                 elementoErro.classList.remove('show');
@@ -1042,7 +1040,6 @@ document.addEventListener('DOMContentLoaded', function() {
             vencimento: mVencimento.value,
             cpf: mCpf.value.replace(/\D/g, ''),
             endereco: mEndereco.value.trim(),
-            complemento: mComplemento.value.trim(),
             bairro: mBairro.value.trim(),
             cidade: mCidade.value.trim(),
             cep: mCep.value.replace(/\D/g, ''),
@@ -1064,7 +1061,6 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('Dia Vencimento', dados.vencimento);
         formData.append('CPF', dados.cpf);
         formData.append('Endereço', dados.endereco);
-        formData.append('Complemento', dados.complemento);
         formData.append('Bairro', dados.bairro);
         formData.append('Cidade', dados.cidade);
         formData.append('CEP', dados.cep);
@@ -1126,5 +1122,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('✅ Site Rapix carregado com sucesso!');
     console.log('📋 Formulário de contato com currículo obrigatório.');
-    console.log('📋 Modal de contratação com todos os campos obrigatórios.');
+    console.log('📋 Modal de contratação sem campo Complemento.');
 });

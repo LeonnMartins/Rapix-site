@@ -30,10 +30,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             NeikiCookieBanner.init({
-                // Configurações principais
-                privacyPolicyUrl: '/politica-de-privacidade',
-
-                // Textos (todos em português)
+                privacyPolicyUrl: 'politica-de-privacidade.html',
                 content: {
                     header: '🍪 Nós usamos cookies!',
                     message: 'Usamos cookies para melhorar sua experiência no site, analisar tráfego e personalizar conteúdo. Ao clicar em "Aceitar todos", você concorda com o uso de TODOS os cookies. Você pode configurar suas preferências em "Configurações".',
@@ -43,10 +40,9 @@
                     close: 'Fechar',
                     modalTitle: 'Configuração de Cookies',
                     modalSave: 'Salvar preferências',
-                    modalClose: 'Fechar'
+                    modalClose: 'Fechar',
+                    privacyPolicyLinkText: 'Política de Privacidade'
                 },
-
-                // Categorias de cookies
                 categories: [{
                         id: 'necessary',
                         name: 'Estritamente Necessários',
@@ -70,77 +66,33 @@
                         cookies: ['_fbp', 'fr']
                     }
                 ],
-
-                // Função executada quando os scripts são liberados
                 onScriptsUnlock: function(categories) {
-                    // Se o usuário aceitou cookies de analytics
                     if (categories.analytics) {
-                        // Google Analytics - substitua UA-XXXXX-X pelo seu ID
-                        // (descomente as linhas abaixo quando tiver seu ID)
-                        /*
-                        var script = document.createElement('script');
-                        script.async = true;
-                        script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-X';
-                        document.head.appendChild(script);
-
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'UA-XXXXX-X');
-                        */
                         console.log('📊 Cookies de analytics ativados');
                     }
-
-                    // Se o usuário aceitou cookies de marketing
                     if (categories.marketing) {
-                        // Facebook Pixel - substitua pelo seu ID
-                        // (descomente as linhas abaixo quando tiver seu ID)
-                        /*
-                        !function(f,b,e,v,n,t,s)
-                        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                        n.queue=[];t=b.createElement(e);t.async=!0;
-                        t.src=v;s=b.getElementsByTagName(e)[0];
-                        s.parentNode.insertBefore(t,s)}(window, document,'script',
-                        'https://connect.facebook.net/en_US/fbevents.js');
-                        fbq('init', 'SEU_PIXEL_ID');
-                        fbq('track', 'PageView');
-                        */
                         console.log('📢 Cookies de marketing ativados');
                     }
                 },
-
-                // Estilos visuais
                 styles: {
-                    // Cores principais (usando a identidade da Rapix)
                     primaryColor: '#ff7a1a',
                     secondaryColor: '#0d1f6b',
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                     borderRadius: '12px',
                     buttonRadius: '50px',
-
-                    // Posicionamento
                     bannerPosition: 'bottom',
                     bannerWidth: '100%',
-
-                    // Aparência
                     darkMode: false,
                     bannerShadow: '0 -4px 30px rgba(0,0,0,0.15)',
                     bannerBackground: '#ffffff',
                     textColor: '#0b1a33'
                 },
-
-                // Tradução do botão de abrir novamente
                 reopenButtonLabel: '🍪 Gerenciar cookies',
-
-                // Delay para exibir o banner (ms)
                 delay: 500,
             });
-
-            console.log('🍪 Cookie banner inicializado com sucesso!');
         });
     </script>
+
 </head>
 <body>
 
@@ -157,7 +109,7 @@
     <!-- HEADER -->
     <header id="header">
         <div class="container">
-            <a href="#">
+            <a href="index.html">
                 <img src="imagens/rapix-logo.png" alt="Rapix Telecom" class="logo-img" />
             </a>
             <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu">
@@ -168,9 +120,9 @@
                 <a href="#diferenciais">Diferenciais</a>
                 <a href="#sobre">A Empresa</a>
                 <a href="#cobertura">Cobertura</a>
-                <a href="#contato">Contato</a>
+                <a href="contato.html">Contato</a>
                 <a href="https://www.minhaconexao.com.br/teste-de-velocidade/velocimetro" target="_blank" rel="noopener" class="nav-link-outline">Teste de Velocidade</a>
-                <a href="#trabalhe-conosco" class="nav-link-outline">Trabalhe Conosco</a>
+                <a href="#contato" class="nav-link-outline">Trabalhe Conosco</a>
                 <a href="https://ixc.rapix.com.br/central_assinante_web/login/" target="_blank" rel="noopener" class="btn btn-small btn-secondary">Área do Cliente</a>
             </nav>
         </div>
@@ -351,19 +303,6 @@
                     <span><i class="fas fa-map-marked-alt"></i> Presença em Ceará e Pará</span>
                 </div>
             </div>
-
-            <div class="sobre-locais reveal">
-                <div class="local-card">
-                    <i class="fas fa-store"></i>
-                    <h4>Maranguape</h4>
-                    <p>Maranguape Shopping Mall, Piso L1<br />R. Cel. Antônio Botelho, 254 – Centro</p>
-                </div>
-                <div class="local-card">
-                    <i class="fas fa-store"></i>
-                    <h4>Canindé</h4>
-                    <p>Galeria Shopping<br />Rua Euclides Barroso, 486</p>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -395,166 +334,61 @@
         </div>
     </section>
 
-    <!-- DEPOIMENTOS -->
-    <section class="depoimentos" id="depoimentos">
-        <div class="container">
-            <h2 class="section-title reveal">O Que Dizem Nossos Clientes</h2>
-            <p class="section-subtitle reveal">A opinião de quem navega todos os dias na melhor fibra da região.</p>
-
-            <div class="depoimentos-carousel-outer reveal">
-                <button class="carousel-arrow prev" id="depPrev" aria-label="Depoimento anterior"><i class="fas fa-chevron-left"></i></button>
-
-                <div class="depoimentos-carousel" id="depoimentosCarousel">
-                    <div class="depoimentos-track" id="depoimentosTrack">
-                        <div class="depoimento-card">
-                            <i class="fas fa-quote-right quote-icon"></i>
-                            <div class="estrelas"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p>"A estabilidade é incrível. Trabalho de home office realizando videochamadas o dia inteiro e a internet nunca caiu."</p>
-                            <div class="depoimento-autor">
-                                <div class="avatar">CS</div>
-                                <div>
-                                    <div class="autor">Carlos Silva</div>
-                                    <div class="cidade">Maranguape / CE</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="depoimento-card">
-                            <i class="fas fa-quote-right quote-icon"></i>
-                            <div class="estrelas"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p>"O plano de 1 Giga atende perfeitamente a casa toda. Jogamos online enquanto assistem filmes em 4K na sala."</p>
-                            <div class="depoimento-autor">
-                                <div class="avatar">AP</div>
-                                <div>
-                                    <div class="autor">Ana Paula</div>
-                                    <div class="cidade">Maracanaú / CE</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="depoimento-card">
-                            <i class="fas fa-quote-right quote-icon"></i>
-                            <div class="estrelas"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p>"Atendimento excelente desde o agendamento até a instalação do técnico. Recomendo de olhos fechados!"</p>
-                            <div class="depoimento-autor">
-                                <div class="avatar">RO</div>
-                                <div>
-                                    <div class="autor">Rafael Oliveira</div>
-                                    <div class="cidade">Canindé / CE</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="depoimento-card">
-                            <i class="fas fa-quote-right quote-icon"></i>
-                            <div class="estrelas"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p>"Moro em Caridade e nunca imaginei ter fibra óptica de verdade por aqui. A Rapix mudou o jogo na cidade."</p>
-                            <div class="depoimento-autor">
-                                <div class="avatar">MF</div>
-                                <div>
-                                    <div class="autor">Marcos Ferreira</div>
-                                    <div class="cidade">Caridade / CE</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="depoimento-card">
-                            <i class="fas fa-quote-right quote-icon"></i>
-                            <div class="estrelas"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p>"Suporte rápido de verdade. Abri chamado à noite e no outro dia de manhã já tinha técnico na porta de casa."</p>
-                            <div class="depoimento-autor">
-                                <div class="avatar">JL</div>
-                                <div>
-                                    <div class="autor">Juliana Lima</div>
-                                    <div class="cidade">Aratuba / CE</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="depoimento-card">
-                            <i class="fas fa-quote-right quote-icon"></i>
-                            <div class="estrelas"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p>"Testei outras operadoras antes e nenhuma chegava perto da velocidade real que a Rapix entrega todos os dias."</p>
-                            <div class="depoimento-autor">
-                                <div class="avatar">PB</div>
-                                <div>
-                                    <div class="autor">Pedro Bezerra</div>
-                                    <div class="cidade">Maranguape / CE</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="carousel-arrow next" id="depNext" aria-label="Próximo depoimento"><i class="fas fa-chevron-right"></i></button>
-            </div>
-
-            <div class="carousel-dots" id="depDots"></div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="faq" id="faq">
-        <div class="container">
-            <h2 class="section-title reveal">Perguntas Frequentes</h2>
-            <p class="section-subtitle reveal">Tire suas dúvidas técnicas e comerciais de forma simples.</p>
-
-            <div class="faq-list">
-                <div class="faq-item active reveal">
-                    <div class="faq-pergunta">
-                        Como funciona o processo de instalação?
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-resposta">Agendamos a instalação na data e horário de sua preferência. Nossa equipe técnica realiza a conexão da fibra óptica diretamente em sua residência, deixando seu Wi-Fi pronto para uso.</div>
-                </div>
-
-                <div class="faq-item reveal">
-                    <div class="faq-pergunta">
-                        Existe taxa de instalação ou cobrança extra?
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-resposta">A instalação da Rapix Fibra é 100% gratuita para todos os planos promocionais contratados em nosso site.</div>
-                </div>
-
-                <div class="faq-item reveal">
-                    <div class="faq-pergunta">
-                        A internet possui limitação de consumo (franquia)?
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-resposta">Não! Todos os nossos planos possuem navegação ilimitada. Você pode baixar, assistir a vídeos e jogar à vontade sem redução de velocidade.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- CONTATO - Com Upload de Currículo Obrigatório -->
     <section class="contato" id="contato">
         <div class="container">
             <div class="contato-grid">
+                <!-- ===== LADO ESQUERDO - TRABALHE CONOSCO ===== -->
                 <div class="contato-info reveal">
-                    <h3>Entre em Contato</h3>
-                    <p><i class="fas fa-phone-alt"></i> <a href="tel:08001818080">0800-181-8080</a></p>
-                    <p><i class="fas fa-envelope"></i> <a href="mailto:contato@rapix.com.br">contato@rapix.com.br</a></p>
+                    <div class="trabalhe-conosco-section">
+                        <hr style="margin: 16px 0; border-color: var(--border-color);" />
+                        <div class="titulo">
+                            <i class="fas fa-users"></i>
+                            Trabalhe Conosco
+                        </div>
 
-                    <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid #e2e8f0;">
-                        <h3 id="trabalhe-conosco" style="font-size: 1.4rem;">Trabalhe Conosco</h3>
-                        <p style="font-size: 0.95rem; color: var(--text-gray); margin-bottom: 16px;">
-                            Faça parte de uma equipe apaixonada por conectar pessoas. Envie seu currículo e venha crescer com a Rapix!
+                        <p class="descricao">
+                            Faça parte de uma equipe apaixonada por conectar pessoas. 
+                            Envie seu currículo e venha crescer com a Rapix!
                         </p>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">
-                            <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                            Ambientes de trabalho inclusivos e colaborativos
-                        </p>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">
-                            <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                            Oportunidades de crescimento profissional
-                        </p>
+
+                        <div class="destaque-box">
+                            <p><strong>Por que trabalhar na Rapix?</strong></p>
+                            <p>Ambiente colaborativo e inclusivo</p>
+                            <p>Oportunidades reais de crescimento</p>
+                            <p>Cultura de inovação e aprendizado</p>
+                        </div>
+
+                        <div class="beneficios">
+                            <div class="beneficio-item">
+                                <i class="fas fa-check-circle"></i>
+                                Ambientes de trabalho inclusivos e colaborativos
+                            </div>
+                            <div class="beneficio-item">
+                                <i class="fas fa-check-circle"></i>
+                                Oportunidades de crescimento profissional
+                            </div>
+                            <div class="beneficio-item">
+                                <i class="fas fa-check-circle"></i>
+                                Benefícios competitivos
+                            </div>
+                            <div class="beneficio-item">
+                                <i class="fas fa-check-circle"></i>
+                                Equipe engajada e suporte constante
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- ===== LADO DIREITO - FORMULÁRIO ===== -->
                 <form class="contato-form reveal" id="formContato" enctype="multipart/form-data" novalidate>
-                    <h3 style="font-size: 1.2rem; margin-bottom: 4px; color: var(--text-dark);">Que tal trabalhar conosco?</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">Campos com <span style="color: var(--danger);">*</span> são obrigatórios</p>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 4px; color: var(--text-dark);">
+                        <i class="fas fa-file-upload" style="color: var(--secondary);"></i> 
+                        Envie seu Currículo
+                    </h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">
+                        Campos com <span style="color: var(--danger);">*</span> são obrigatórios
+                    </p>
 
                     <div>
                         <input type="text" id="formNome" placeholder="Seu Nome Completo *" required />
@@ -728,11 +562,101 @@
         </div>
     </div>
 
+    <!-- ===== FAQ ===== -->
+<section class="faq" id="faq">
+    <div class="container">
+        <h2 class="section-title reveal">Perguntas Frequentes</h2>
+        <p class="section-subtitle reveal">Tire suas dúvidas técnicas e comerciais de forma simples.</p>
+
+        <div class="faq-list">
+            <div class="faq-item active reveal">
+                <div class="faq-pergunta">
+                    Como funciona o processo de instalação?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">Agendamos a instalação na data e horário de sua preferência. Nossa equipe técnica realiza a conexão da fibra óptica diretamente em sua residência, deixando seu Wi-Fi pronto para uso. A instalação é 100% gratuita.</div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-pergunta">
+                    A internet possui limitação de consumo (franquia)?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">Não! Todos os nossos planos possuem navegação ilimitada. Você pode baixar, assistir a vídeos e jogar à vontade sem redução de velocidade, sem franquia de dados e sem custos adicionais.</div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-pergunta">
+                    Qual a diferença entre fibra óptica e internet via rádio?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">A fibra óptica utiliza cabos de vidro que transmitem dados por luz, garantindo maior velocidade, estabilidade e baixa latência. Já a internet via rádio é sujeita a interferências climáticas e perda de sinal. Com a Rapix Fibra, você tem conexão simétrica (mesma velocidade de download e upload) e sinal estável 24h.</div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-pergunta">
+                    A velocidade contratada é realmente entregue?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">Sim! Entregamos a velocidade contratada com garantia de performance. Você pode testar a qualquer momento através do nosso medidor de velocidade disponível no site. Caso haja alguma divergência, nossa equipe técnica resolve rapidamente.</div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-pergunta">
+                    Como funciona o suporte técnico da Rapix?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">Nosso suporte técnico é 100% local e está disponível 24 horas por dia, 7 dias por semana. Você pode entrar em contato pelo telefone 0800-181-8080, WhatsApp ou pela Área do Cliente para atendimento rápido e eficiente.</div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-pergunta">
+                    Posso mudar de plano depois de contratado?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">Sim! Você pode migrar para um plano superior ou inferior a qualquer momento. Basta entrar em contato com nossa equipe e ajustamos seu plano conforme sua necessidade. A mudança é rápida e sem custos adicionais.</div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-pergunta">
+                    Como funciona o pagamento e a fatura?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">As faturas são enviadas mensalmente para seu e-mail, WhatsApp e SMS ou podem ser acessadas na Área do Cliente. O pagamento pode ser feito via boleto bancário e pix. Você escolhe o dia de vencimento entre as opções disponíveis.</div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-pergunta">
+                    Como faço para cancelar o serviço?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">O cancelamento pode ser solicitado através do nosso telefone 0800-181-8080 ou pela Área do Cliente. Não cobramos multa rescisória para cancelamento após o período de fidelidade de 12 meses. Antes disso, consulte as condições contratuais.</div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-pergunta">
+                    O que fazer se a internet parar de funcionar?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">Primeiro, verifique se todos os cabos estão conectados e se o roteador está ligado. Reinicie o modem e o roteador aguardando 30 segundos. Se o problema persistir, entre em contato com nosso suporte pelo 0800-181-8080 ou WhatsApp. Nossa equipe está pronta para ajudar.</div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-pergunta">
+                    A Rapix atende minha região?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-resposta">Atendemos 11 localidades no Ceará e Pará, incluindo Maranguape, Maracanaú, Canindé, Caridade, Campos Belos, Aratuba, Belém, Ananindeua, Santarém, Altamira e Marabá. Consulte nosso verificador de disponibilidade no site ou entre em contato para confirmar a cobertura exata do seu endereço.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
     <!-- RODAPÉ -->
     <footer>
         <div class="container">
             <div class="footer-content">
-                <a href="#">
+                <a href="index.html">
                     <img src="imagens/rapix-logo.png" alt="Rapix Telecom Logo" class="footer-logo-img" />
                 </a>
 
@@ -741,8 +665,9 @@
                     <a href="#diferenciais">Diferenciais</a>
                     <a href="#sobre">A Empresa</a>
                     <a href="#cobertura">Cobertura</a>
-                    <a href="#contato">Contato</a>
+                    <a href="contato.html">Contato</a>
                     <a href="#trabalhe-conosco">Trabalhe Conosco</a>
+                    <a href="politica-de-privacidade.html">Política de Privacidade</a>
                     <a href="https://www.minhaconexao.com.br/teste-de-velocidade/velocimetro" target="_blank" rel="noopener">Teste de Velocidade</a>
                 </div>
 
@@ -752,7 +677,8 @@
                 </div>
 
                 <div class="copy">
-                    &copy; 2026 RAPIX INTERNET FIBRA — Razão Social: Rapix Telecomunicação e Serviços LTDA · Todos os direitos reservados.
+                    &copy; 2026 RAPIX INTERNET FIBRA — Razão Social: Rapix Telecomunicação e Serviços LTDA<br />
+                    Todos os direitos reservados.
                 </div>
             </div>
         </div>
@@ -770,11 +696,5 @@
     <!-- JavaScript Externo -->
     <script src="js/script.js"></script>
 
-    <!-- ============================================================ -->
-    <!-- COOKIE BANNER - Script de inicialização (já está no head)    -->
-    <!-- ============================================================ -->
-    <!-- O script do cookie banner já está configurado no <head>     -->
-    <!-- Ele é carregado antes do conteúdo da página                 -->
-    <!-- ============================================================ -->
 </body>
 </html>

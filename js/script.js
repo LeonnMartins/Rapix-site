@@ -185,129 +185,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================
-    // 7. CARROSSEL DE DEPOIMENTOS
-    // ============================================================
-    const depOuter = document.getElementById('depoimentosCarousel');
-    const depTrack = document.getElementById('depoimentosTrack');
-    if (depOuter && depTrack) {
-        const depPrev = document.getElementById('depPrev');
-        const depNext = document.getElementById('depNext');
-        const depDotsWrap = document.getElementById('depDots');
-        const realCards = Array.from(depTrack.children);
-        const total = realCards.length;
-        const CLONES = 4;
-
-        realCards.slice(-CLONES).reverse().forEach(card => {
-            depTrack.insertBefore(card.cloneNode(true), depTrack.firstChild);
-        });
-        realCards.slice(0, CLONES).forEach(card => {
-            depTrack.appendChild(card.cloneNode(true));
-        });
-
-        if (depDotsWrap) {
-            realCards.forEach((_, i) => {
-                const dot = document.createElement('button');
-                dot.className = 'dot';
-                dot.setAttribute('aria-label', `Ir para depoimento ${i + 1}`);
-                dot.addEventListener('click', () => goTo(CLONES + i));
-                depDotsWrap.appendChild(dot);
-            });
-        }
-        const dots = depDotsWrap ? Array.from(depDotsWrap.children) : [];
-
-        let pos = CLONES;
-        let animating = false;
-
-        function step() {
-            const card = depTrack.children[0];
-            if (!card) return 320;
-            const style = getComputedStyle(depTrack);
-            const gap = parseFloat(style.columnGap || style.gap || 26);
-            return card.getBoundingClientRect().width + gap;
-        }
-
-        function apply(instant) {
-            if (instant) depTrack.classList.add('no-transition');
-            depTrack.style.transform = `translateX(${-pos * step()}px)`;
-            if (instant) {
-                void depTrack.offsetHeight;
-                depTrack.classList.remove('no-transition');
-            }
-        }
-
-        function updateDots() {
-            if (dots.length === 0) return;
-            const logical = ((pos - CLONES) % total + total) % total;
-            dots.forEach((d, i) => d.classList.toggle('active', i === logical));
-        }
-
-        function goTo(newPos) {
-            if (animating) return;
-            animating = true;
-            pos = newPos;
-            apply(false);
-            updateDots();
-        }
-
-        depTrack.addEventListener('transitionend', () => {
-            animating = false;
-            if (pos >= CLONES + total) { pos -= total;
-                apply(true); } else if (pos < CLONES) { pos += total;
-                apply(true); }
-        });
-
-        if (depPrev) depPrev.addEventListener('click', () => { stopAutoplay();
-            goTo(pos - 1);
-            startAutoplay(); });
-        if (depNext) depNext.addEventListener('click', () => { stopAutoplay();
-            goTo(pos + 1);
-            startAutoplay(); });
-
-        let depAutoplay;
-
-        function startAutoplay() {
-            if (prefersReducedMotion) return;
-            clearInterval(depAutoplay);
-            depAutoplay = setInterval(() => goTo(pos + 1), 4500);
-        }
-
-        function stopAutoplay() { clearInterval(depAutoplay); }
-
-        depOuter.addEventListener('mouseenter', stopAutoplay);
-        depOuter.addEventListener('mouseleave', startAutoplay);
-
-        let dragStartX = 0,
-            dragging = false;
-
-        function dragStart(x) {
-            dragging = true;
-            stopAutoplay();
-            dragStartX = x;
-            depOuter.classList.add('grabbing');
-        }
-
-        function dragEnd(x) {
-            if (!dragging) return;
-            dragging = false;
-            depOuter.classList.remove('grabbing');
-            const delta = x - dragStartX;
-            if (delta > 50) goTo(pos - 1);
-            else if (delta < -50) goTo(pos + 1);
-            startAutoplay();
-        }
-        depOuter.addEventListener('touchstart', e => dragStart(e.touches[0].clientX), { passive: true });
-        depOuter.addEventListener('touchend', e => dragEnd(e.changedTouches[0].clientX), { passive: true });
-        depOuter.addEventListener('mousedown', e => { e.preventDefault();
-            dragStart(e.clientX); });
-        window.addEventListener('mouseup', e => dragEnd(e.clientX));
-
-        apply(true);
-        updateDots();
-        startAutoplay();
-        window.addEventListener('resize', () => apply(true));
-    }
-
-    // ============================================================
     // 8. CONTADORES
     // ============================================================
     const counters = document.querySelectorAll('.counter');
@@ -394,297 +271,296 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+        // ============================================================
+    // 13. FORMULÁRIO TRABALHE CONOSCO
     // ============================================================
-    // 11. FORMULÁRIO DE CONTATO COM UPLOAD DE CURRÍCULO OBRIGATÓRIO
-    // ============================================================
-    const formContato = document.getElementById('formContato');
-    const formMsg = document.getElementById('formMsg');
-    const formErrorMsg = document.getElementById('formErrorMsg');
-    const formSubmitBtn = document.getElementById('formSubmitBtn');
+    const formTc = document.getElementById('formContato');
+    if (formTc) {
+        const formMsg = document.getElementById('formMsg');
+        const formErrorMsg = document.getElementById('formErrorMsg');
+        const submitBtn = document.getElementById('formSubmitBtn');
 
-    const campoNome = document.getElementById('formNome');
-    const campoEmail = document.getElementById('formEmail');
-    const campoTelefone = document.getElementById('formTelefone');
-    const campoCargo = document.getElementById('formCargo');
-    const campoCurriculo = document.getElementById('formCurriculo');
-    const fileUploadArea = document.getElementById('fileUploadArea');
-    const fileInfo = document.getElementById('fileInfo');
-    const fileName = document.getElementById('fileName');
-    const fileRemove = document.getElementById('fileRemove');
+        const campoNome = document.getElementById('formNome');
+        const campoEmail = document.getElementById('formEmail');
+        const campoTelefone = document.getElementById('formTelefone');
+        const campoCargo = document.getElementById('formCargo');
+        const campoCurriculo = document.getElementById('formCurriculo');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileRemove = document.getElementById('fileRemove');
 
-    const errorNome = document.getElementById('formNomeError');
-    const errorEmail = document.getElementById('formEmailError');
-    const errorTelefone = document.getElementById('formTelefoneError');
-    const errorCargo = document.getElementById('formCargoError');
-    const errorCurriculo = document.getElementById('formCurriculoError');
+        const errorNome = document.getElementById('formNomeError');
+        const errorEmail = document.getElementById('formEmailError');
+        const errorTelefone = document.getElementById('formTelefoneError');
+        const errorCargo = document.getElementById('formCargoError');
+        const errorCurriculo = document.getElementById('formCurriculoError');
 
-    function validarNome(valor) {
-        const trimmed = valor.trim();
-        if (trimmed.length < 2) return false;
-        const regex = /^[a-zA-ZÀ-ÿ'\- ]+$/;
-        if (!regex.test(trimmed)) return false;
-        const invalidos = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '@', '#', '$', '%', '&', '*'];
-        for (let char of trimmed) {
-            if (invalidos.includes(char)) return false;
-        }
-        if (/(.)\1{5,}/.test(trimmed)) return false;
-        return true;
-    }
+        let arquivoSelecionado = null;
 
-    function validarEmail(valor) {
-        const trimmed = valor.trim();
-        const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-        if (!regex.test(trimmed)) return false;
-        const parts = trimmed.split('@');
-        if (parts.length !== 2) return false;
-        if (parts[0].length === 0) return false;
-        const domainParts = parts[1].split('.');
-        if (domainParts.length < 2) return false;
-        if (domainParts.some(p => p.length === 0)) return false;
-        if (trimmed.includes('..')) return false;
-        if (trimmed.includes(' ')) return false;
-        return true;
-    }
-
-    function validarTelefone(valor) {
-        const numeros = valor.replace(/\D/g, '');
-        if (numeros.length < 10 || numeros.length > 11) return false;
-        if (numeros.length === 10) {
-            if (numeros[0] !== '0' && numeros[2] !== '9') return true;
-            return false;
-        }
-        if (numeros.length === 11) {
-            if (/^(\d)\1{10}$/.test(numeros)) return false;
-            if (numeros[2] !== '9') return false;
+        // Funções de validação (reutilizando as mesmas do formulário de contato)
+        function validarNomeTc(v) {
+            const t = v.trim();
+            if (t.length < 2) return false;
+            const regex = /^[a-zA-ZÀ-ÿ'\- ]+$/;
+            if (!regex.test(t)) return false;
+            const inv = ['0','1','2','3','4','5','6','7','8','9','@','#','$','%','&','*'];
+            for (let c of t) if (inv.includes(c)) return false;
+            if (/(.)\1{5,}/.test(t)) return false;
             return true;
         }
-        return false;
-    }
 
-    function validarCargo(valor) {
-        return valor.trim().length >= 2;
-    }
-
-    function aplicarMascaraTelefone(valor) {
-        const numeros = valor.replace(/\D/g, '');
-        if (numeros.length === 0) return '';
-        if (numeros.length <= 2) return `(${numeros}`;
-        if (numeros.length <= 6) return `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`;
-        if (numeros.length <= 10) return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 6)}-${numeros.slice(6)}`;
-        return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7, 11)}`;
-    }
-
-    campoTelefone.addEventListener('input', function() {
-        const pos = this.selectionStart;
-        const old = this.value;
-        const novo = aplicarMascaraTelefone(this.value);
-        this.value = novo;
-        if (pos < old.length) {
-            const diff = novo.length - old.length;
-            this.setSelectionRange(pos + diff, pos + diff);
+        function validarEmailTc(v) {
+            const t = v.trim();
+            const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+            if (!regex.test(t)) return false;
+            const parts = t.split('@');
+            if (parts.length !== 2) return false;
+            if (parts[0].length === 0) return false;
+            const dp = parts[1].split('.');
+            if (dp.length < 2) return false;
+            if (dp.some(p => p.length === 0)) return false;
+            if (t.includes('..')) return false;
+            if (t.includes(' ')) return false;
+            return true;
         }
-    });
 
-    function validarCampoContato(campo, validacao, elementoErro, mensagemErro) {
-        const valor = campo.value;
-        const isValid = validacao(valor);
-        if (isValid) {
-            campo.classList.remove('error');
-            campo.classList.add('success');
-            elementoErro.classList.remove('show');
-        } else {
-            campo.classList.remove('success');
-            campo.classList.add('error');
-            elementoErro.textContent = mensagemErro || 'Campo inválido.';
-            elementoErro.classList.add('show');
-        }
-        return isValid;
-    }
-
-    function configurarValidacaoContato(campo, validacao, elementoErro, mensagemErro, evento = 'blur') {
-        campo.addEventListener(evento, function() {
-            validarCampoContato(campo, validacao, elementoErro, mensagemErro);
-        });
-        campo.addEventListener('input', function() {
-            if (campo.classList.contains('error')) {
-                campo.classList.remove('error');
-                elementoErro.classList.remove('show');
+        function validarTelefoneTc(v) {
+            const n = v.replace(/\D/g, '');
+            if (n.length < 10 || n.length > 11) return false;
+            if (n.length === 10) {
+                if (n[0] !== '0' && n[2] !== '9') return true;
+                return false;
             }
-            if (campo.classList.contains('success')) {
-                if (!validacao(campo.value)) {
-                    campo.classList.remove('success');
-                }
+            if (n.length === 11) {
+                if (/^(\d)\1{10}$/.test(n)) return false;
+                if (n[2] !== '9') return false;
+                return true;
+            }
+            return false;
+        }
+
+        function validarCargoTc(v) {
+            return v.trim().length >= 2;
+        }
+
+        function aplicarMascaraTelefoneTc(v) {
+            const n = v.replace(/\D/g, '');
+            if (n.length === 0) return '';
+            if (n.length <= 2) return '(' + n;
+            if (n.length <= 6) return '(' + n.slice(0,2) + ') ' + n.slice(2);
+            if (n.length <= 10) return '(' + n.slice(0,2) + ') ' + n.slice(2,6) + '-' + n.slice(6);
+            return '(' + n.slice(0,2) + ') ' + n.slice(2,7) + '-' + n.slice(7,11);
+        }
+
+        // Máscara de telefone
+        campoTelefone.addEventListener('input', function() {
+            const pos = this.selectionStart;
+            const old = this.value;
+            const novo = aplicarMascaraTelefoneTc(this.value);
+            this.value = novo;
+            if (pos < old.length) {
+                const diff = novo.length - old.length;
+                this.setSelectionRange(pos + diff, pos + diff);
             }
         });
-    }
 
-    configurarValidacaoContato(campoNome, validarNome, errorNome, 'Digite um nome válido (apenas letras).');
-    configurarValidacaoContato(campoEmail, validarEmail, errorEmail, 'Digite um e-mail válido.');
-    configurarValidacaoContato(campoTelefone, validarTelefone, errorTelefone,
-        'Digite um telefone válido com DDD.');
-    configurarValidacaoContato(campoCargo, validarCargo, errorCargo, 'Digite o cargo desejado.');
-
-    let arquivoSelecionado = null;
-
-    fileUploadArea.addEventListener('click', () => campoCurriculo.click());
-
-    fileUploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        fileUploadArea.classList.add('dragover');
-    });
-
-    fileUploadArea.addEventListener('dragleave', (e) => {
-        e.preventDefault();
-        fileUploadArea.classList.remove('dragover');
-    });
-
-    fileUploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        fileUploadArea.classList.remove('dragover');
-        if (e.dataTransfer.files.length > 0) {
-            processarArquivo(e.dataTransfer.files[0]);
-        }
-    });
-
-    campoCurriculo.addEventListener('change', function() {
-        if (this.files.length > 0) {
-            processarArquivo(this.files[0]);
-        }
-    });
-
-    function processarArquivo(file) {
-        const tamanhoMaximo = 5 * 1024 * 1024;
-        const tiposPermitidos = ['application/pdf', 'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        ];
-
-        if (!tiposPermitidos.includes(file.type)) {
-            alert('Formato de arquivo não suportado. Envie PDF, DOC ou DOCX.');
-            campoCurriculo.value = '';
-            return;
-        }
-
-        if (file.size > tamanhoMaximo) {
-            alert('Arquivo muito grande. O tamanho máximo é 5MB.');
-            campoCurriculo.value = '';
-            return;
-        }
-
-        arquivoSelecionado = file;
-        fileName.textContent = file.name;
-        fileInfo.classList.add('show');
-        fileUploadArea.style.display = 'none';
-        errorCurriculo.classList.remove('show');
-        campoCurriculo.classList.remove('error');
-        campoCurriculo.classList.add('success');
-    }
-
-    fileRemove.addEventListener('click', function(e) {
-        e.stopPropagation();
-        arquivoSelecionado = null;
-        campoCurriculo.value = '';
-        fileInfo.classList.remove('show');
-        fileUploadArea.style.display = 'block';
-        campoCurriculo.classList.remove('success');
-    });
-
-    formContato.addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        const validacoes = [
-            { campo: campoNome, validacao: validarNome, error: errorNome, msg: 'Digite um nome válido.' },
-            { campo: campoEmail, validacao: validarEmail, error: errorEmail, msg: 'Digite um e-mail válido.' },
-            { campo: campoTelefone, validacao: validarTelefone, error: errorTelefone,
-            msg: 'Digite um telefone válido.' },
-            { campo: campoCargo, validacao: validarCargo, error: errorCargo, msg: 'Digite o cargo desejado.' },
-        ];
-
-        let formularioValido = true;
-
-        validacoes.forEach(({ campo, validacao, error, msg }) => {
+        function validarCampoTc(campo, validacao, errorEl, msg) {
             const isValid = validacao(campo.value);
-            if (!isValid) {
-                campo.classList.add('error');
-                campo.classList.remove('success');
-                error.textContent = msg;
-                error.classList.add('show');
-                formularioValido = false;
-            } else {
+            if (isValid) {
                 campo.classList.remove('error');
                 campo.classList.add('success');
-                error.classList.remove('show');
+                errorEl.classList.remove('show');
+            } else {
+                campo.classList.remove('success');
+                campo.classList.add('error');
+                errorEl.textContent = msg || 'Campo inválido.';
+                errorEl.classList.add('show');
+            }
+            return isValid;
+        }
+
+        function configurarValidacaoTc(campo, validacao, errorEl, msg, evento = 'blur') {
+            campo.addEventListener(evento, function() {
+                validarCampoTc(campo, validacao, errorEl, msg);
+            });
+            campo.addEventListener('input', function() {
+                if (campo.classList.contains('error')) {
+                    campo.classList.remove('error');
+                    errorEl.classList.remove('show');
+                }
+                if (campo.classList.contains('success')) {
+                    if (!validacao(campo.value)) {
+                        campo.classList.remove('success');
+                    }
+                }
+            });
+        }
+
+        configurarValidacaoTc(campoNome, validarNomeTc, errorNome, 'Digite um nome válido (apenas letras).');
+        configurarValidacaoTc(campoEmail, validarEmailTc, errorEmail, 'Digite um e-mail válido.');
+        configurarValidacaoTc(campoTelefone, validarTelefoneTc, errorTelefone, 'Digite um telefone válido com DDD.');
+        configurarValidacaoTc(campoCargo, validarCargoTc, errorCargo, 'Digite o cargo desejado.');
+
+        // Upload de arquivo
+        fileUploadArea.addEventListener('click', () => campoCurriculo.click());
+
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                processarArquivoTc(e.dataTransfer.files[0]);
             }
         });
 
-        // Validação do currículo (obrigatório)
-        if (!arquivoSelecionado) {
-            campoCurriculo.classList.add('error');
-            errorCurriculo.classList.add('show');
-            formularioValido = false;
-        } else {
-            campoCurriculo.classList.remove('error');
-            errorCurriculo.classList.remove('show');
-        }
+        campoCurriculo.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                processarArquivoTc(this.files[0]);
+            }
+        });
 
-        if (!formularioValido) {
-            const primeiroErro = formContato.querySelector('input.error, select.error');
-            if (primeiroErro) primeiroErro.focus();
-            return;
-        }
+        function processarArquivoTc(file) {
+            const tamanhoMaximo = 5 * 1024 * 1024;
+            const tiposPermitidos = ['application/pdf', 'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            ];
 
-        formSubmitBtn.disabled = true;
-        formSubmitBtn.innerHTML = '<span class="spinner"></span> Enviando...';
-        formMsg.classList.remove('show');
-        formErrorMsg.classList.remove('show');
-
-        try {
-            const formData = new FormData();
-            formData.append('_subject', `[Rapix] Candidatura para ${campoCargo.value.trim()} - ${campoNome.value.trim()}`);
-            formData.append('_captcha', 'false');
-            formData.append('_template', 'table');
-            formData.append('Nome', campoNome.value.trim());
-            formData.append('Email', campoEmail.value.trim());
-            formData.append('Telefone', campoTelefone.value.trim());
-            formData.append('Cargo', campoCargo.value.trim());
-
-            if (arquivoSelecionado) {
-                formData.append('curriculo', arquivoSelecionado);
+            if (!tiposPermitidos.includes(file.type)) {
+                alert('Formato de arquivo não suportado. Envie PDF, DOC ou DOCX.');
+                campoCurriculo.value = '';
+                return;
             }
 
-            const response = await fetch('https://formsubmit.co/ajax/contato@rapix.com.br', {
-                method: 'POST',
-                body: formData
-            });
+            if (file.size > tamanhoMaximo) {
+                alert('Arquivo muito grande. O tamanho máximo é 5MB.');
+                campoCurriculo.value = '';
+                return;
+            }
 
-            if (!response.ok) throw new Error('Erro no servidor');
+            arquivoSelecionado = file;
+            fileName.textContent = file.name;
+            fileInfo.classList.add('show');
+            fileUploadArea.style.display = 'none';
+            errorCurriculo.classList.remove('show');
+            campoCurriculo.classList.remove('error');
+            campoCurriculo.classList.add('success');
+        }
 
-            await response.json();
-
-            formMsg.classList.add('show');
-            formContato.reset();
+        fileRemove.addEventListener('click', function(e) {
+            e.stopPropagation();
             arquivoSelecionado = null;
+            campoCurriculo.value = '';
             fileInfo.classList.remove('show');
             fileUploadArea.style.display = 'block';
+            campoCurriculo.classList.remove('success');
+        });
 
-            formContato.querySelectorAll('.success, .error').forEach(el => {
-                el.classList.remove('success', 'error');
+        // Submit
+        formTc.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const validacoes = [
+                { campo: campoNome, validacao: validarNomeTc, error: errorNome, msg: 'Digite um nome válido.' },
+                { campo: campoEmail, validacao: validarEmailTc, error: errorEmail, msg: 'Digite um e-mail válido.' },
+                { campo: campoTelefone, validacao: validarTelefoneTc, error: errorTelefone, msg: 'Digite um telefone válido.' },
+                { campo: campoCargo, validacao: validarCargoTc, error: errorCargo, msg: 'Digite o cargo desejado.' },
+            ];
+
+            let formValido = true;
+
+            validacoes.forEach(({ campo, validacao, error, msg }) => {
+                const isValid = validacao(campo.value);
+                if (!isValid) {
+                    campo.classList.add('error');
+                    campo.classList.remove('success');
+                    error.textContent = msg;
+                    error.classList.add('show');
+                    formValido = false;
+                } else {
+                    campo.classList.remove('error');
+                    campo.classList.add('success');
+                    error.classList.remove('show');
+                }
             });
-            formContato.querySelectorAll('.error-message').forEach(el => {
-                el.classList.remove('show');
-            });
 
-            setTimeout(() => formMsg.classList.remove('show'), 6000);
+            if (!arquivoSelecionado) {
+                campoCurriculo.classList.add('error');
+                errorCurriculo.classList.add('show');
+                formValido = false;
+            } else {
+                campoCurriculo.classList.remove('error');
+                errorCurriculo.classList.remove('show');
+            }
 
-        } catch (error) {
-            console.error('Erro no envio:', error);
-            formErrorMsg.classList.add('show');
-            setTimeout(() => formErrorMsg.classList.remove('show'), 6000);
-        } finally {
-            formSubmitBtn.disabled = false;
-            formSubmitBtn.innerHTML = '<span>Enviar Mensagem</span> <i class="fas fa-paper-plane"></i>';
-        }
-    });
+            if (!formValido) {
+                const primeiroErro = formTc.querySelector('input.error, select.error');
+                if (primeiroErro) primeiroErro.focus();
+                return;
+            }
 
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Enviando...';
+            formMsg.classList.remove('show');
+            formErrorMsg.classList.remove('show');
+
+            try {
+                const formData = new FormData();
+                formData.append('_subject', `[Rapix] Candidatura para ${campoCargo.value.trim()} - ${campoNome.value.trim()}`);
+                formData.append('_captcha', 'false');
+                formData.append('_template', 'table');
+                formData.append('Nome', campoNome.value.trim());
+                formData.append('Email', campoEmail.value.trim());
+                formData.append('Telefone', campoTelefone.value.trim());
+                formData.append('Cargo', campoCargo.value.trim());
+
+                if (arquivoSelecionado) {
+                    formData.append('curriculo', arquivoSelecionado);
+                }
+
+                const response = await fetch('https://formsubmit.co/ajax/Leandson.leon@gmail.com', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Erro no servidor');
+
+                await response.json();
+
+                formMsg.classList.add('show');
+                formTc.reset();
+                arquivoSelecionado = null;
+                fileInfo.classList.remove('show');
+                fileUploadArea.style.display = 'block';
+
+                formTc.querySelectorAll('.success, .error').forEach(el => {
+                    el.classList.remove('success', 'error');
+                });
+                formTc.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show');
+                });
+
+                setTimeout(() => formMsg.classList.remove('show'), 6000);
+
+            } catch (error) {
+                console.error('Erro no envio:', error);
+                formErrorMsg.classList.add('show');
+                setTimeout(() => formErrorMsg.classList.remove('show'), 6000);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Enviar Currículo</span> <i class="fas fa-paper-plane"></i>';
+            }
+        });
+    }
     // ============================================================
     // 12. MODAL DE CONTRATAÇÃO
     // ============================================================
@@ -1066,7 +942,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('CEP', dados.cep);
         formData.append('Ponto Referência', dados.referencia);
 
-        fetch('https://formsubmit.co/ajax/contato@rapix.com.br', {
+        fetch('https://formsubmit.co/ajax/Leandson.leon@gmail.com', {
                 method: 'POST',
                 body: formData
             })

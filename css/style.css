@@ -76,29 +76,66 @@ video {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #0d1f6b; /* fundo sólido para evitar transparência */
+    background: #F5F7FA;
     opacity: 1;
     visibility: visible;
     transition: opacity 0.8s ease, visibility 0.8s ease;
     overflow: hidden;
 }
-
 #preloader.preloader--hide {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 }
-
 #preloaderVideo {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;   /* exibe o vídeo inteiro sem cortes */
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    min-width: 60%;
+    max-width: 80%;
+    max-height: 90vh;
+    object-fit: contain;
+    transform: translate(-50%, -50%);
     display: block;
-    background: #f0f4f8;
+    background: #F5F7FA;
 }
+body.preloading {
+    overflow: hidden;
+}
+
+/* ===== PRELOADER RESPONSIVO ===== */
+@media (max-width: 1024px) {
+    #preloaderVideo {
+        min-width: 70%;
+        max-width: 90%;
+        max-height: 85vh;
+        object-fit: contain;
+    }
+}
+
+@media (max-width: 768px) {
+    #preloaderVideo {
+        min-width: 85%;
+        max-width: 95%;
+        max-height: 80vh;
+        object-fit: contain;
+    }
+}
+
+@media (max-width: 480px) {
+    #preloader {
+        background: #F5F7FA;
+    }
+    #preloaderVideo {
+        min-width: 92%;
+        max-width: 98%;
+        max-height: 85vh;
+        object-fit: contain;
+    }
+}
+
 /* ===== SCROLL PROGRESS ===== */
 .scroll-progress {
     position: fixed;
@@ -290,7 +327,7 @@ header.scrolled .logo-img {
     align-items: center;
     color: var(--white);
     overflow: hidden;
-    background-image: linear-gradient(100deg, rgba(7, 18, 66, 0.95) 0%, rgba(26, 59, 206, 0.88) 32%, rgba(7, 18, 66, 0.4) 54%, rgba(6, 11, 36, 0.637) 72%), url('../imagens/garoto-tablet.jpg');
+    background-image: linear-gradient(100deg, rgba(7, 18, 66, 0.95) 0%, rgba(7, 18, 66, 0.88) 32%, rgba(7, 18, 66, 0.4) 54%, rgba(7, 18, 66, 0) 72%), url('../imagens/garoto-tablet.jpg');
     background-size: cover, cover;
     background-position: right center, right center;
     background-repeat: no-repeat, no-repeat;
@@ -724,153 +761,6 @@ header.scrolled .logo-img {
     margin-right: auto;
 }
 
-/* ===== DEPOIMENTOS ===== */
-.depoimentos {
-    padding: 100px 0;
-    background: var(--bg-light);
-}
-.depoimentos-carousel-outer {
-    position: relative;
-    padding: 0 4px;
-}
-.depoimentos-carousel {
-    overflow: hidden;
-    padding: 12px 4px 44px;
-    margin: 0 -4px;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
-    cursor: grab;
-}
-.depoimentos-carousel.grabbing {
-    cursor: grabbing;
-}
-.depoimentos-track {
-    display: flex;
-    gap: 26px;
-    will-change: transform;
-    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.depoimentos-track.no-transition {
-    transition: none;
-}
-.depoimento-card {
-    position: relative;
-    flex: 0 0 320px;
-    background: var(--white);
-    padding: 40px 30px 30px;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid #e2e8f0;
-    transition: var(--transition-smooth);
-    overflow: hidden;
-}
-.depoimento-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
-    border-color: transparent;
-}
-.depoimento-card .quote-icon {
-    position: absolute;
-    top: 20px;
-    right: 22px;
-    font-size: 1.6rem;
-    color: var(--primary);
-    opacity: 0.08;
-}
-.estrelas {
-    color: var(--accent);
-    margin-bottom: 16px;
-    font-size: 1.1rem;
-}
-.depoimento-card p {
-    color: var(--text-gray);
-    font-style: italic;
-    margin-bottom: 24px;
-    font-size: 1rem;
-    line-height: 1.6;
-    min-height: 80px;
-}
-.depoimento-autor {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding-top: 18px;
-    border-top: 1px solid #eef1f6;
-}
-.avatar {
-    flex-shrink: 0;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: var(--white);
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-}
-.depoimento-card .autor {
-    font-weight: 700;
-    color: var(--primary);
-    font-size: 0.98rem;
-}
-.depoimento-card .cidade {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-}
-.carousel-arrow {
-    position: absolute;
-    top: 42%;
-    transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: none;
-    background: var(--white);
-    color: var(--primary);
-    box-shadow: var(--shadow-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    cursor: pointer;
-    z-index: 5;
-    transition: var(--transition-fast);
-}
-.carousel-arrow:hover {
-    background: var(--secondary);
-    color: var(--white);
-    transform: translateY(-50%) scale(1.08);
-}
-.carousel-arrow.prev {
-    left: -8px;
-}
-.carousel-arrow.next {
-    right: -8px;
-}
-.carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: -16px;
-}
-.carousel-dots .dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    border: none;
-    background: #d7deec;
-    cursor: pointer;
-    padding: 0;
-    transition: var(--transition-fast);
-}
-.carousel-dots .dot.active {
-    width: 26px;
-    border-radius: 6px;
-    background: var(--secondary);
-}
-
 /* ===== FAQ ===== */
 .faq {
     padding: 100px 0;
@@ -936,43 +826,25 @@ header.scrolled .logo-img {
     gap: 50px;
     align-items: start;
 }
-.contato-info h3 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    margin-bottom: 24px;
-}
-.contato-info p {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-size: 1.05rem;
-    margin-bottom: 16px;
-    color: var(--text-gray);
-}
-.contato-info p i {
-    color: var(--secondary);
-    font-size: 1.3rem;
-    width: 24px;
-}
 .contato-form {
     background: var(--white);
-    padding: 40px;
+    padding: 32px 36px;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     border: 1px solid #e2e8f0;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 14px;
 }
 .contato-form input,
 .contato-form textarea,
 .contato-form select {
     width: 100%;
-    padding: 16px 20px;
+    padding: 12px 16px;
     border-radius: var(--radius-sm);
     border: 1px solid #cbd5e1;
     font-family: var(--font);
-    font-size: 1rem;
+    font-size: 0.95rem;
     outline: none;
     transition: var(--transition-fast);
     background: var(--white);
@@ -995,10 +867,10 @@ header.scrolled .logo-img {
     background: #f0fdf4;
 }
 .contato-form .error-message {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--danger);
     font-weight: 600;
-    min-height: 20px;
+    min-height: 18px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -1011,16 +883,16 @@ header.scrolled .logo-img {
     transform: translateY(0);
 }
 .contato-form .error-message i {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
 }
 .contato-form textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 100px;
 }
 .contato-form .file-upload-area {
     border: 2px dashed #cbd5e1;
     border-radius: var(--radius-sm);
-    padding: 30px 20px;
+    padding: 18px 16px;
     text-align: center;
     cursor: pointer;
     transition: var(--transition-fast);
@@ -1035,20 +907,28 @@ header.scrolled .logo-img {
     background: rgba(255, 122, 26, 0.05);
 }
 .contato-form .file-upload-area .file-icon {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     color: var(--text-muted);
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 }
 .contato-form .file-upload-area .file-text {
     color: var(--text-gray);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
 }
 .contato-form .file-upload-area .file-text strong {
     color: var(--secondary);
 }
+.contato-form .file-upload-area .file-text br {
+    display: none;
+}
+.contato-form .file-upload-area .file-text small {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.7rem;
+}
 .contato-form .file-info {
     display: none;
-    padding: 12px 16px;
+    padding: 10px 14px;
     background: #f0fdf4;
     border: 1px solid #bbf7d0;
     border-radius: var(--radius-sm);
@@ -1056,6 +936,7 @@ header.scrolled .logo-img {
     font-weight: 600;
     align-items: center;
     gap: 12px;
+    font-size: 0.9rem;
 }
 .contato-form .file-info.show {
     display: flex;
@@ -1066,7 +947,7 @@ header.scrolled .logo-img {
     border: none;
     color: var(--danger);
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1rem;
     padding: 4px 8px;
 }
 .contato-form .file-info .file-remove:hover {
@@ -1078,12 +959,87 @@ header.scrolled .logo-img {
     font-weight: 700;
     align-items: center;
     gap: 8px;
+    font-size: 0.9rem;
 }
 .form-msg.show {
     display: flex;
 }
 .form-msg.error-msg {
     color: var(--danger);
+}
+.contato-form .btn {
+    padding: 14px 28px;
+    font-size: 0.95rem;
+}
+
+/* ===== TRABALHE CONOSCO ===== */
+.trabalhe-conosco-section {
+    padding: 0;
+    border-top: none !important;
+    margin-top: 0 !important;
+}
+
+.trabalhe-conosco-section .titulo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.trabalhe-conosco-section .titulo i {
+    color: var(--secondary);
+    font-size: 1.6rem;
+}
+
+.trabalhe-conosco-section .descricao {
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.trabalhe-conosco-section .destaque-box {
+    background: linear-gradient(135deg, #f0f7ff 0%, #f8f0e8 100%);
+    border-left: 4px solid var(--secondary);
+    padding: 20px 24px;
+    border-radius: var(--radius-sm);
+    margin: 24px 0 20px;
+}
+
+.trabalhe-conosco-section .destaque-box p {
+    margin-bottom: 4px;
+    font-size: 0.95rem;
+    color: var(--text-gray);
+}
+
+.trabalhe-conosco-section .destaque-box strong {
+    color: var(--primary);
+}
+
+.trabalhe-conosco-section .beneficios {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.trabalhe-conosco-section .beneficio-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    padding: 6px 0;
+}
+
+.trabalhe-conosco-section .beneficio-item i {
+    color: var(--success);
+    font-size: 1.1rem;
+    width: 22px;
+    flex-shrink: 0;
 }
 
 /* ===== MODAL ===== */
@@ -1700,7 +1656,7 @@ footer .copy {
         width: 100%;
     }
     .contato-form {
-        padding: 30px 20px;
+        padding: 24px 18px;
     }
     .hero {
         background-image: linear-gradient(180deg, rgba(7, 18, 66, 0.78), rgba(7, 18, 66, 0.78)), url('../imagens/garoto-tablet.jpg');
@@ -1758,6 +1714,24 @@ footer .copy {
         height: 60px;
         font-size: 2rem;
     }
+
+    .contato-form .file-upload-area .file-text br {
+        display: block;
+    }
+
+    /* TRABALHE CONOSCO - Responsivo */
+    .trabalhe-conosco-section .titulo {
+        font-size: 1.4rem;
+    }
+    .trabalhe-conosco-section .descricao {
+        font-size: 0.95rem;
+    }
+    .trabalhe-conosco-section .destaque-box {
+        padding: 16px 18px;
+    }
+    .trabalhe-conosco-section .beneficio-item {
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1780,6 +1754,33 @@ footer .copy {
     .modal-success h3,
     .modal-error h3 {
         font-size: 1.2rem;
+    }
+    .contato-form {
+        padding: 18px 14px;
+    }
+    .contato-form .file-upload-area {
+        padding: 14px 12px;
+    }
+    .contato-form .file-upload-area .file-icon {
+        font-size: 1.4rem;
+        margin-bottom: 4px;
+    }
+    .contato-form .file-upload-area .file-text {
+        font-size: 0.8rem;
+    }
+    .contato-form .file-upload-area .file-text small {
+        font-size: 0.65rem;
+    }
+
+    /* TRABALHE CONOSCO - Mobile */
+    .trabalhe-conosco-section .titulo {
+        font-size: 1.2rem;
+    }
+    .trabalhe-conosco-section .beneficio-item {
+        font-size: 0.85rem;
+    }
+    .trabalhe-conosco-section .destaque-box p {
+        font-size: 0.85rem;
     }
 }
 

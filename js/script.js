@@ -52,9 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    if (navMenu) {
     document.querySelectorAll('.nav-menu a').forEach(link => {
         link.addEventListener('click', () => navMenu.classList.remove('open'));
     });
+}
 
     // ============================================================
     // 3. HEADER SCROLL & PROGRESS

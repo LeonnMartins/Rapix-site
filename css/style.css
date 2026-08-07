@@ -878,22 +878,149 @@ header.scrolled .logo-img {
 .cobertura .section-subtitle {
     color: rgba(255, 255, 255, 0.8);
 }
-.cobertura-cidades {
+/* ===== LEGENDA DOS ESTADOS ===== */
+.cobertura-legenda {
     display: flex;
     justify-content: center;
+    gap: 28px;
+    margin-bottom: 32px;
     flex-wrap: wrap;
-    gap: 18px 30px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 40px;
 }
-.cobertura-cidades span {
+.legenda-item {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: rgba(255, 255, 255, 0.85);
 }
-.cobertura-cidades span i {
-    color: var(--secondary);
+.legenda-item i {
+    font-size: 0.6rem;
+}
+.legenda-item--ce i {
+    color: var(--accent);
+}
+.legenda-item--pa i {
+    color: var(--success);
+}
+
+/* ===== CARROSSEL DE LOCALIDADES ===== */
+.cobertura-carrossel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 100%;
+    margin-bottom: 40px;
+}
+.carrossel-viewport {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+}
+.carrossel-viewport::-webkit-scrollbar {
+    display: none;
+}
+.carrossel-viewport.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+.carrossel-track {
+    display: flex;
+    gap: 18px;
+    padding: 6px 20px;
+    width: max-content;
+}
+.cidade-card {
+    --cor-estado: var(--accent);
+    flex: 0 0 auto;
+    min-width: 168px;
+    padding: 22px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(6px);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-fast);
+    user-select: none;
+}
+.cidade-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--cor-estado);
+}
+.cidade-card--ce {
+    --cor-estado: var(--accent);
+}
+.cidade-card--pa {
+    --cor-estado: var(--success);
+}
+.cidade-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--cor-estado);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+}
+.cidade-estado {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--cor-estado);
+    margin-bottom: 10px;
+}
+.cidade-estado i {
+    margin-right: 5px;
+}
+.cidade-nome {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--white);
+}
+.carrossel-seta {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.carrossel-seta:hover {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    transform: scale(1.08);
+}
+@media (max-width: 640px) {
+    .carrossel-seta {
+        display: none;
+    }
+    .carrossel-viewport {
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%);
+        mask-image: linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%);
+    }
 }
 .verificador {
     max-width: 540px;
@@ -1718,6 +1845,29 @@ footer .copy {
 .whatsapp-float:hover {
     transform: scale(1.1);
 }
+.whatsapp-float-balao {
+    position: absolute;
+    right: calc(100% + 14px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--white);
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 8px 14px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+}
+.whatsapp-float-balao::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-left-color: var(--white);
+}
 .back-to-top {
     position: fixed;
     bottom: 30px;
@@ -1748,6 +1898,28 @@ footer .copy {
 .back-to-top:hover {
     background: var(--secondary);
     color: var(--white);
+}
+
+@media (max-width: 480px) {
+    .whatsapp-float {
+        width: 52px;
+        height: 52px;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        right: 16px;
+        font-size: 1.5rem;
+    }
+    .whatsapp-float-balao {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+        right: calc(100% + 10px);
+    }
+    .back-to-top {
+        width: 40px;
+        height: 40px;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        left: 16px;
+        font-size: 0.95rem;
+    }
 }
 
 /* ===== RESPONSIVIDADE ===== */

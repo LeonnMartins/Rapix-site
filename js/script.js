@@ -168,6 +168,94 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cepInput) cepInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') verificarCobertura(); });
 
     // ============================================================
+    // 5b. CARROSSEL DE LOCALIDADES
+    // ============================================================
+    const coberturaViewport = document.getElementById('coberturaViewport');
+    const coberturaTrack = document.getElementById('coberturaTrack');
+    const coberturaPrev = document.getElementById('coberturaPrev');
+    const coberturaNext = document.getElementById('coberturaNext');
+
+    if (coberturaViewport && coberturaTrack) {
+        // Duplica os cards para permitir loop infinito sem "salto" visível
+        const cardsOriginais = Array.from(coberturaTrack.children);
+        cardsOriginais.forEach(card => {
+            coberturaTrack.appendChild(card.cloneNode(true));
+        });
+
+        let larguraConjunto = 0;
+        const calcularLargura = () => {
+            larguraConjunto = 0;
+            cardsOriginais.forEach(card => {
+                larguraConjunto += card.offsetWidth + 18; // 18px = gap
+            });
+        };
+        calcularLargura();
+        window.addEventListener('resize', calcularLargura);
+
+        let autoScrollId = null;
+        let pausado = false;
+
+        const passoAuto = () => {
+            if (!pausado && larguraConjunto > 0) {
+                coberturaViewport.scrollLeft += 0.6;
+                if (coberturaViewport.scrollLeft >= larguraConjunto) {
+                    coberturaViewport.scrollLeft -= larguraConjunto;
+                }
+            }
+            autoScrollId = requestAnimationFrame(passoAuto);
+        };
+        autoScrollId = requestAnimationFrame(passoAuto);
+
+        const pausarTemporariamente = () => {
+            pausado = true;
+            clearTimeout(coberturaViewport._resumeTimer);
+            coberturaViewport._resumeTimer = setTimeout(() => { pausado = false; }, 2500);
+        };
+
+        coberturaViewport.addEventListener('mouseenter', () => { pausado = true; });
+        coberturaViewport.addEventListener('mouseleave', () => { pausado = false; });
+
+        // Setas
+        const mover = (direcao) => {
+            pausarTemporariamente();
+            const larguraCard = cardsOriginais[0].offsetWidth + 18;
+            coberturaViewport.scrollBy({ left: direcao * larguraCard * 2, behavior: 'smooth' });
+        };
+        if (coberturaPrev) coberturaPrev.addEventListener('click', () => mover(-1));
+        if (coberturaNext) coberturaNext.addEventListener('click', () => mover(1));
+
+        // Arrastar com o mouse
+        let arrastando = false;
+        let posInicialX = 0;
+        let scrollInicial = 0;
+
+        coberturaViewport.addEventListener('mousedown', (e) => {
+            arrastando = true;
+            pausado = true;
+            coberturaViewport.classList.add('is-dragging');
+            posInicialX = e.pageX;
+            scrollInicial = coberturaViewport.scrollLeft;
+        });
+        window.addEventListener('mouseup', () => {
+            if (arrastando) {
+                arrastando = false;
+                coberturaViewport.classList.remove('is-dragging');
+                pausarTemporariamente();
+            }
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (!arrastando) return;
+            e.preventDefault();
+            const delta = e.pageX - posInicialX;
+            coberturaViewport.scrollLeft = scrollInicial - delta;
+        });
+
+        // Toque (mobile) também pausa o auto-scroll enquanto o usuário interage
+        coberturaViewport.addEventListener('touchstart', () => { pausado = true; }, { passive: true });
+        coberturaViewport.addEventListener('touchend', pausarTemporariamente, { passive: true });
+    }
+
+    // ============================================================
     // 6. REVEAL ON SCROLL
     // ============================================================
     const revealEls = document.querySelectorAll('.reveal');

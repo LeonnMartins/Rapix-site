@@ -282,27 +282,46 @@
    <!-- SOBRE A EMPRESA -->
 <section class="sobre" id="sobre">
     <div class="container">
-        <div class="sobre-content" style="max-width: 900px; margin: 0 auto; text-align: center;">
-            <span class="eyebrow" style="display: inline-block; text-align: center;">
-                <i class="fas fa-calendar-alt" style="color: var(--secondary); margin-right: 8px;"></i>
-                Desde 2005 • Tradição em Tecnologia
-            </span>
-            <h2 class="section-title" style="text-align: center; margin-bottom: 20px;">
-                Mais de 17 anos conectando pessoas com excelência
-            </h2>
-            <p style="font-size: 1.1rem; color: var(--text-gray); max-width: 780px; margin: 0 auto 24px;">
-                Somos uma empresa séria, fundada em 2005 e com atuação consolidada no setor de tecnologia da informação.
-                Contamos com um time de profissionais altamente capacitados e empenhados em oferecer o melhor atendimento,
-                com agilidade, qualidade e transparência em cada etapa.
-                Hoje, a Rapix leva internet 100% fibra óptica para diversas localidades do Ceará e do Pará, com
-                infraestrutura moderna e suporte humano que realmente resolve. Nossa missão é entregar ultravelocidade real,
-                estabilidade e uma experiência digital sem frustrações para você e sua família.
-            </p>
-          
-            <div class="sobre-badges" style="justify-content: center;">
-                <span><i class="fas fa-gamepad"></i> Baixa Latência para Games</span>
-                <span><i class="fas fa-tv"></i> Streaming em 4K sem Buffering</span>
-                <span><i class="fas fa-map-marked-alt"></i> Presença em Ceará e Pará</span>
+        <div class="sobre-grid">
+            <div class="sobre-content reveal">
+                <span class="eyebrow">
+                    <i class="fas fa-calendar-alt" style="color: var(--secondary); margin-right: 8px;"></i>
+                    Tradição em Tecnologia
+                </span>
+                <h2 class="section-title">
+                    Mais de 17 anos conectando pessoas com excelência
+                </h2>
+                <p>
+                    Somos uma empresa séria, fundada em 2005 e com atuação consolidada no setor de tecnologia da informação.
+                    Contamos com um time de profissionais altamente capacitados e empenhados em oferecer o melhor atendimento,
+                    com agilidade, qualidade e transparência em cada etapa.
+                    Hoje, a Rapix leva internet 100% fibra óptica para diversas localidades do Ceará e do Pará, com
+                    infraestrutura moderna e suporte humano que realmente resolve. Nossa missão é entregar ultravelocidade real,
+                    estabilidade e uma experiência digital sem frustrações para você e sua família.
+                </p>
+
+                <div class="sobre-badges">
+                    <span><i class="fas fa-gamepad"></i> Baixa Latência para Games</span>
+                    <span><i class="fas fa-tv"></i> Streaming em 4K sem Buffering</span>
+                </div>
+            </div>
+
+            <div class="sobre-locais reveal">
+                <div class="local-card">
+                    <i class="fas fa-comments"></i>
+                    <h4>Atendimento humano</h4>
+                    <p>Você fala com gente de verdade, sem chatbot interminável</p>
+                </div>
+                <div class="local-card">
+                    <i class="fas fa-file-signature"></i>
+                    <h4>Transparência total</h4>
+                    <p>Contrato claro e transparentes sem surpresas</p>
+                </div>
+                <div class="local-card">
+                    <i class="fas fa-server"></i>
+                    <h4>Rede própria</h4>
+                    <p>Infraestrutura nossa, sem depender de terceiros</p>
+                </div>
             </div>
         </div>
     </div>
@@ -313,18 +332,57 @@
             <h2 class="section-title reveal">A Rapix Já Está na Sua Região!</h2>
             <p class="section-subtitle reveal">Presença consolidada em 11 localidades do Ceará e do Pará. Consulte a cobertura e conecte-se hoje mesmo.</p>
 
-            <div class="cobertura-cidades reveal">
-                <span><i class="fas fa-map-marker-alt"></i> Maranguape</span>
-                <span><i class="fas fa-map-marker-alt"></i> Maracanaú</span>
-                <span><i class="fas fa-map-marker-alt"></i> Canindé</span>
-                <span><i class="fas fa-map-marker-alt"></i> Caridade</span>
-                <span><i class="fas fa-map-marker-alt"></i> Campos Belos</span>
-                <span><i class="fas fa-map-marker-alt"></i> Aratuba</span>
-                <span><i class="fas fa-map-marker-alt"></i> Belém</span>
-                <span><i class="fas fa-map-marker-alt"></i> Ananindeua</span>
-                <span><i class="fas fa-map-marker-alt"></i> Santarém</span>
-                <span><i class="fas fa-map-marker-alt"></i> Altamira</span>
-                <span><i class="fas fa-map-marker-alt"></i> Marabá</span>
+            <div class="cobertura-legenda reveal">
+                <span class="legenda-item legenda-item--ce"><i class="fas fa-circle"></i> Ceará</span>
+                <span class="legenda-item legenda-item--pa"><i class="fas fa-circle"></i> Pará</span>
+            </div>
+
+            <div class="cobertura-carrossel reveal">
+                <button class="carrossel-seta carrossel-seta--prev" id="coberturaPrev" aria-label="Localidade anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="carrossel-viewport" id="coberturaViewport">
+                    <div class="carrossel-track" id="coberturaTrack">
+                        <div class="cidade-card cidade-card--ce">
+                            <span class="cidade-nome">Maranguape</span>
+                        </div>
+                        <div class="cidade-card cidade-card--ce">
+                            <span class="cidade-nome">Maracanaú</span>
+                        </div>
+                        <div class="cidade-card cidade-card--ce">
+                            <span class="cidade-nome">Canindé</span>
+                        </div>
+                        <div class="cidade-card cidade-card--ce">
+                            <span class="cidade-nome">Caridade</span>
+                        </div>
+                        <div class="cidade-card cidade-card--ce">
+                            <span class="cidade-nome">Campos Belos</span>
+                        </div>
+                        <div class="cidade-card cidade-card--ce">
+                            <span class="cidade-nome">Aratuba</span>
+                        </div>
+                        <div class="cidade-card cidade-card--pa">
+                            <span class="cidade-nome">Belém</span>
+                        </div>
+                        <div class="cidade-card cidade-card--pa">
+                            <span class="cidade-nome">Ananindeua</span>
+                        </div>
+                        <div class="cidade-card cidade-card--pa">
+                            <span class="cidade-nome">Santarém</span>
+                        </div>
+                        <div class="cidade-card cidade-card--pa">
+                            <span class="cidade-nome">Altamira</span>
+                        </div>
+                        <div class="cidade-card cidade-card--pa">
+                            <span class="cidade-nome">Marabá</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carrossel-seta carrossel-seta--next" id="coberturaNext" aria-label="Próxima localidade">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
 
             <div class="verificador reveal">
@@ -687,6 +745,7 @@
 
     <!-- BOTÕES FLUTUANTES -->
     <a href="https://wa.me/5508001818080?text=Oi%2C%20tudo%20bem%3F%20Quero%20assinar%20Rapix" target="_blank" rel="noopener" class="whatsapp-float" aria-label="WhatsApp">
+        <span class="whatsapp-float-balao">Precisa de ajuda?</span>
         <i class="fab fa-whatsapp"></i>
     </a>
 
